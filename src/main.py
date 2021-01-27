@@ -1,6 +1,6 @@
 from tkinter import *
-import audio
 import random
+import time
 
 
 
@@ -150,12 +150,8 @@ out_mapping=0
 file=open('select.txt','w')
 file.write('Unselected')
 file.close()
-Click = 'click.wav'
-Music='bg_music.wav'
-End = 'end.wav'
-Move = 'move.wav'
 place_label['text']='Place:\n%s\n\nStatus:\n%s'%(game_map[coords[1]][coords[0]]['place']['title'],game_map[coords[1]][coords[0]]['place']['status'])
-audio.startSound(Music,loop=True)
+
 
 def btn_config(mode):
     for btn in buttons:
@@ -166,18 +162,11 @@ def btn_config(mode):
 
 def display_parameters(coords,text_display=None):
     place_label['text']=''
-    for char in text_display:       
+    for char in text_display:
         place_label['text']+=char
         if char!=' ':
-            if random.randint(0,1)==0:
-                audio.startSound(Click,16)
-                audio.time.sleep(0.085)
-                audio.stopSound()
-            else:
-                audio.time.sleep(0.085)
-        audio.stopSound()
+            time.sleep(0.085)
         tk.update_idletasks()
-    audio.startSound(Music,loop=True)
 
 def change_display(coords):
     for x in range(15):
@@ -272,13 +261,8 @@ def move_right(event=None):
         display_parameters(coords,'OUT OF MAP')
         out_mapping+=1
 
-def music_end():
-    audio.startSound(End,interrupt=True)
-    audio.time.sleep(2)
-    audio.stopSound()
 
 def get():
-    music_end()
     tk.destroy()
     return{'place':game_map[coords[1]][coords[0]]['place']['title'],'status':game_map[coords[1]][coords[0]]['place']['status'],'coords':coords,'moves':moves,'out_map':out_mapping,'blocked':blocking}
 
